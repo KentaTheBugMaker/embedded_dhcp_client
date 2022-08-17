@@ -821,7 +821,7 @@ impl OptionEncoder {
                 self.buffer[self.next_pos] = 4;
                 self.next_pos += 1;
                 self.buffer[self.next_pos..self.next_pos + 4].copy_from_slice(x);
-                self.next_pos += 1;
+                self.next_pos += 4;
             }
 
             Options::Router(x)

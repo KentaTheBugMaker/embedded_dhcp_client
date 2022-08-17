@@ -11,7 +11,6 @@ fn main() {
     // create socket
     let socket = std::net::UdpSocket::bind("0.0.0.0:68").unwrap();
     socket.set_broadcast(true).unwrap();
-    socket.connect("255.255.255.255:67").unwrap();
     // initialize rng.
     let mut rng = rand::thread_rng();
     // setup transaction id
@@ -36,7 +35,7 @@ fn main() {
             "255.255.255.255:67",
         )
         .unwrap();
-    println!("{}", size_of::<DHCPMessageRaw>());
+
     let mut recv_buffer = [0; 556];
     let (offer_message_size, addr) = socket.recv_from(&mut recv_buffer).unwrap();
     println!("received {} bytes from {}", offer_message_size, addr);
@@ -76,7 +75,7 @@ fn main() {
         println!("received {} bytes from {}", ack_message_size, addr);
         let ack_message =
             unsafe { DHCPMessageRaw::decode_received_message(&recv_buffer, ack_message_size) };
-        let ack_message = ack_message.decode_to_rustic_message(DecodeBuffer::Offer);
+        let ack_message = ack_message.decode_to_rustic_message(DecodeBuffer::Ack);
         println!("{:?}", ack_message);
     }
 }
